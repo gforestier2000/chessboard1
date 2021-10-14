@@ -1,0 +1,28 @@
+{
+  "name": "chessboard1",
+  "version": "0.0.1",
+  "description": "Application simple de jeux d'echec",
+  "main": "chessboard1.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node chessboard1.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gforestier2000/chessboard1.git"
+  },
+  "keywords": [
+    "training",
+    "learning",
+    "mentoring"
+  ],
+  "author": "aminum",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/gforestier2000/chessboard1/issues"
+  },
+  "homepage": "https://github.com/gforestier2000/chessboard1#readme",
+  "dependencies": {
+    "node": "^16.10.0"
+  }
+}
