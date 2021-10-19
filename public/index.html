@@ -3,18 +3,36 @@
     Email : gforestier2000@yahoo.fr
 -->
 <html>
-    <head>
-        <link rel="stylesheet" href="./style.css">
-        <meta charset="UTF-8">
-        <!--<meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
-        <title>DefaultChess</title>
-    
-        <link rel="stylesheet" href="css/styles.css">
-    
-    </head>
-    <body>
-        <h1>Hello world of chess</h1>
-    </body>
-    <footer>Template exemple001.html</footer>
-    <script src="./script.js"></script>
+
+<head>
+    <link rel="stylesheet" href="./style.css">
+    <meta charset="UTF-8">
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <title>DefaultChess</title>
+
+    <link rel="stylesheet" href="css/styles.css">
+
+</head>
+
+<body>
+    <h1>Hello world of chess</h1>
+    <div id="users">
+        <form id="form-users" action="http://192.168.1.16:8042/users/" method="post">
+            <label for="email">Email :</label>
+            <!-- sans name= la valeur n'est pas transmise -->
+            <input id="email" type="email" placeholder="Entrez votre email" name="email">
+            <label for="firstname">Prénom :</label>
+            <input id="firstname" type="text" placeholder="Entrez votre prénom" name="firstname">
+            <label for="lastname">Nom :</label>
+            <input id="lastname" type="text" placeholder="Entrez votre nom" name="lastname">
+            <!-- <input id="insert" type="submit" value="Plouf"> -->
+            <button type="submit">Plouf2</button>
+        </form>
+        <div id="server-message"></div>
+        
+    </div>
+</body>
+<footer>Template exemple001.html</footer>
+<script src="./script.js"></script>
+
 </html>

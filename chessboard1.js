@@ -7,6 +7,7 @@ console.log(`NODEPORT : ${process.env.NODEPORT}`);
 
 // initialisation du model
 const Utilisateurs = require("./model/utilisateur");
+const UserRouter = require("./routes/usroutes");
 
 // On instancie express
 const express = require("express");
@@ -19,44 +20,13 @@ const path = require("path");
 app.use(express.static(path.join(__dirname, "public")));
 
 const bodyParser = require('body-parser');
+// permet de gerer les inputs json (ex : postman)
 app.use(bodyParser.json());
+// permet de gerer les inputs à partir d'un formulaire
+app.use(bodyParser.urlencoded({ extended: true }));
 
-// On met en place les routes
-app.post("/users/", (request, response) => {
-  console.log("POST /users/ requested");
-  //console.log(request);
-  console.log(request.body);
-  const msg = {
-    message : "tout va bien",
-    id2 : 1234,
-    id : request.body.id
-  };
 
-  response.status(201).json(msg);
-  //response.status(201).json("tout est ok");
-});
-app.get("/users/:id", (request, response) => {
-  console.log("GET /users/:id requested");
-  /*mysqlConnection.query("select * from user where id = ?", request.params.id, (err, results, fields) => {
-      if (!err){
-          console.log("DB request succeed");
-          response.send(results);
-
-      }
-      else
-          console.log("DB request failed");
-          
-     
-  });*/
-  //console.log(request);
-  // c'est quoi la différence entre .status().json() et un send() ?
-  response.status(200).json({id : request.params.id});
-  //response.send(`<h1>bien recu : ${request.params.id}<h1>`);
-});
-
-Utilisateurs.saveUser("toto3@gmail.com","Henri", "Toto");
-Utilisateurs.saveUser("toto4@gmail.com","Henri", "Toto");
-Utilisateurs.saveUser("toto5@gmail.com","Henri", "Toto");
+app.use("/",UserRouter);
 
 // On crée le serveur http
 const http = require("http").createServer(app);
@@ -81,3 +51,11 @@ const PORT = process.env.NODEPORT || 3000;
 http.listen(PORT, HOSTNAME, () => {
     console.log(`Server running at http://${HOSTNAME}:${PORT}/`);
   });
+
+/*
+GET /users
+GET /users/:id
+POST /users
+PUT /users/:id
+DELETE /users/:id
+*/
