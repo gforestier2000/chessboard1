@@ -1,12 +1,22 @@
 const MySQL = require('mysql');
 
+/*console.log("utilisateur avant MySQL.createConnection");
+console.log(`DB_HOST : ${process.env.DB_HOST}`);
+console.log(`DB_PORT : ${process.env.DB_PORT}`);
+console.log(`DB_USER : ${process.env.DB_USER}`);
+console.log(`DB_PASSWORD : ${process.env.DB_PASSWORD}`);
+console.log(`DB_DATABASE : ${process.env.DB_DATABASE}`);*/
+
+
 const mysqlConnection = MySQL.createConnection({
-    host: 'localhost', //192.168.2.47
-    port: '3306',
-    user: 'user_appgfo',
-    password: 'AppChess,2021',
-    database: 'gfo'
+    host: process.env.DB_HOST, //192.168.2.47
+    port: process.env.DB_PORT,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE
 });
+
+console.log("utilisateur après MySQL.createConnection");
 
 /*mysqlConnection.connect((err) => {
     if (!err)
@@ -141,10 +151,3 @@ module.exports.findOneUser = findOneUser;
 module.exports.findAllUsers = findAllUsers;
 module.exports.deleteOneUser = deleteOneUser;
 module.exports.updateOneUser = updateOneUser;
-/*
-UPDATE table
-SET colonne_1 = 'valeur 1', colonne_2 = 'valeur 2', colonne_3 = 'valeur 3'
-WHERE condition
-
-
-*/

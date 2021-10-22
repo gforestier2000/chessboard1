@@ -4,10 +4,16 @@ require('dotenv').config({path: __dirname + '/.env'})
 console.log(`WELCOME : ${process.env.WELCOME}`);
 console.log(`NODEHOST : ${process.env.NODEHOST}`);
 console.log(`NODEPORT : ${process.env.NODEPORT}`);
+console.log(`DB_HOST : ${process.env.DB_HOST}`);
+console.log(`DB_PORT : ${process.env.DB_PORT}`);
+console.log(`DB_USER : ${process.env.DB_USER}`);
+console.log(`DB_PASSWORD : ${process.env.DB_PASSWORD}`);
+console.log(`DB_DATABASE : ${process.env.DB_DATABASE}`);
 
 // initialisation du model
-const Utilisateurs = require("./model/utilisateur");
+
 const UserRouter = require("./routes/usroutes");
+const ChessGameRouter = require("./routes/cgroutes");
 
 // On instancie express
 const express = require("express");
@@ -27,6 +33,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 app.use("/",UserRouter);
+app.use("/",ChessGameRouter);
 
 // On crée le serveur http
 const http = require("http").createServer(app);
