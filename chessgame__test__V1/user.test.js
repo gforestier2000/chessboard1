@@ -13,7 +13,7 @@ describe("Users Select", () => {
             if (err) return response.status(500).json(`Select all user echouée : ${err.message}`);
             return response.status(200).json(res);
         */
-        const input = false;
+        const input = true;
         const output = true;
 
         expect(basic(input)).toEqual(output);
