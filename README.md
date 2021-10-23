@@ -1,6 +1,8 @@
 # chessboard1
 Mise en oeuvre d'un jeu d'échec simple en javascript
 
+[![Node.js CI](https://github.com/gforestier2000/chessboard1/actions/workflows/node.js.yml/badge.svg)](https://github.com/gforestier2000/chessboard1/actions/workflows/node.js.yml)
+
 # history
 Premier commit pour mettre en place nodeJS et la mécanique git 
 
