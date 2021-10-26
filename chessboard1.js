@@ -31,7 +31,7 @@ app.use(bodyParser.json());
 // permet de gerer les inputs à partir d'un formulaire
 app.use(bodyParser.urlencoded({ extended: true }));
 
-
+// ajout des router
 app.use("/",UserRouter);
 app.use("/",ChessGameRouter);
 
