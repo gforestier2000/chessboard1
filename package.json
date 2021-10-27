@@ -4,7 +4,7 @@
   "description": "Application simple de jeux d'echec",
   "main": "chessboard1.js",
   "scripts": {
-    "test": "node ./node_modules/jest/bin/jest.js --coverage",
+    "test": "node ./node_modules/jest/bin/jest.js --coverage --detectOpenHandles",
     "start": "node chessboard1.js"
   },
   "repository": {
@@ -26,10 +26,10 @@
     "body-parser": "^1.19.0",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
-    "mysql": "^2.18.1",
-    "node": "^16.10.0"
+    "mysql": "^2.18.1"
   },
   "devDependencies": {
-    "jest": "^27.3.1"
+    "jest": "^27.3.1",
+    "supertest": "^6.1.6"
   }
 }

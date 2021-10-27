@@ -1,4 +1,4 @@
-FROM node
+FROM node:17-alpine
 
 
 WORKDIR /usr/src/app
@@ -8,12 +8,18 @@ WORKDIR /usr/src/app
 # where available (npm@5+)
 COPY package*.json ./
 
-RUN npm install
+RUN npm ci --production
 # If you are building your code for production
 # RUN npm ci --only=production
 
 # Bundle app source
-COPY . .
+COPY ./config ./config
+COPY ./model ./model
+COPY ./public ./public
+COPY ./routes ./routes
+COPY .env .
+COPY chessapp.js .
+COPY chessboard1.js .
 
 
 #ADD . /var

@@ -1,8 +1,10 @@
+require('dotenv').config('../.env')
+
 const Jest = require('../node_modules/jest');
 const User = require("../model/utilisateur");
 
 
-function basic(input){
+function basic(input) {
     return input;
 }
 describe("Users Select", () => {
@@ -17,9 +19,30 @@ describe("Users Select", () => {
         const output = true;
 
         expect(basic(input)).toEqual(output);
-        
+
 
 
     });
 
 });
+
+// {"fieldCount":0,"affectedRows":1,"insertId":1,"serverStatus":2,"warningCount":0,"message":"","protocol41":true,"changedRows":0}
+describe("User insert", () => {
+    test("it should be created with a 201 status", () => {
+        User.saveUser("toto@gmail.com", "Toto", "Ducobu",
+            (err, res) => {
+                if (err){
+                    expect(err.message).toEqual("ER_DUP_ENTRY: Duplicate entry 'toto@gmail.com' for key 'email_UNIQUE'");
+                    return err.message;
+                }
+                else{
+                    expect(res.affectedRows).toEqual(1);
+                    return res;
+                }
+            });
+
+    });
+});
+/*
+
+*/

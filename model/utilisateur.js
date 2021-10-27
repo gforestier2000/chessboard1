@@ -40,12 +40,12 @@ function saveUser(email, firstname, lastname, callback) {
     const insertUser = "INSERT INTO users (email, firstname, lastname) VALUES (? , ? , ?)";
     mysqlConnection.query(insertUser, [email, firstname, lastname], (err, res) => {
         if (err) {
-            console.log("DB INSERT failed");
-            console.log(err.message);
+            //console.log("DB INSERT failed");
+            //console.log(err.message);
             return callback(err, null);
         }
-        console.log("DB INSERT succeed");
-        console.log(res);
+        //console.log("DB INSERT succeed");
+        //console.log(res);
         return callback(null, res);
     });
 }

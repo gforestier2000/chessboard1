@@ -92,7 +92,7 @@ router.delete("/users/:id", (request, response) => {
     console.log("DELETE /users/:id requested");
 
     const id = request.params.id;
-
+    console.log ("THE ID TA MERE : " + id);
     Utilisateurs.deleteOneUser(id, (err,res) =>{
         if (err) return response.status(500).json(`Delete one user echouée : ${err.message}`);
         if(res.affectedRows===0) return response.status(404).json(`ID Utilisateur inconnu`);

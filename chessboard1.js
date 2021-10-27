@@ -10,35 +10,12 @@ console.log(`DB_USER : ${process.env.DB_USER}`);
 console.log(`DB_PASSWORD : ${process.env.DB_PASSWORD}`);
 console.log(`DB_DATABASE : ${process.env.DB_DATABASE}`);
 
-// initialisation du model
-
-const UserRouter = require("./routes/usroutes");
-const ChessGameRouter = require("./routes/cgroutes");
-
-// On instancie express
-const express = require("express");
-const app = express();
-
-// On charge "path"
-const path = require("path");
-
-// On autorise le dossier "public"
-app.use(express.static(path.join(__dirname, "public")));
-
-const bodyParser = require('body-parser');
-// permet de gerer les inputs json (ex : postman)
-app.use(bodyParser.json());
-// permet de gerer les inputs à partir d'un formulaire
-app.use(bodyParser.urlencoded({ extended: true }));
-
-// ajout des router
-app.use("/",UserRouter);
-app.use("/",ChessGameRouter);
+const app = require("./chessapp");
 
 // On crée le serveur http
-const http = require("http").createServer(app);
+//const http = require("http").createServer(app);
 
-const HOSTNAME = process.env.NODEHOST || '127.0.0.1';
+const HOSTNAME = process.env.NODEHOST || '0.0.0.0';
 const PORT = process.env.NODEPORT || 3000;
 
 // Mise en place du serveur
@@ -51,18 +28,31 @@ const PORT = process.env.NODEPORT || 3000;
     res.end('Premier server node lancé');
   });
 */
+const Utilisateurs = require('./model/utilisateur');
+Utilisateurs.saveUser("toto@gmail.com", "toto", "Ducobu",
+  (err, res) => {
+      if (err) return console.log(`Insertion echouée : ${err.message}`);
+      return console.log(res);
+  });
 // Écoute du port
 
-//server.listen(PORT);
-//server.on("listening", () => console.log(`Serveur actif sur le port ${PORT}`));
-http.listen(PORT, HOSTNAME, () => {
+// GFO : Je ne comprends pas pourquoi j'ai du modifier ce code
+// en passant de http.listen à app.listen
+/*http.listen(PORT, HOSTNAME, () => {
     console.log(`Server running at http://${HOSTNAME}:${PORT}/`);
   });
 
-/*
-GET /users
-GET /users/:id
-POST /users
-PUT /users/:id
-DELETE /users/:id
+app.listen(PORT,() => {
+  console.log(`Server running on PORT :${PORT}/`);
+});
 */
+var listener = app.listen(PORT, () => {
+  console.log("Listening on port " + PORT);
+  const {port} = listener.address();
+  console.log(port);
+  console.log(listener.address());
+});
+
+// pour les sockets
+// https://stackoverflow.com/questions/17696801/express-js-app-listen-vs-server-listen
+// https://socket.io/docs/v4/
