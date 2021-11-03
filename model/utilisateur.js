@@ -1,11 +1,12 @@
+const logger = require('../config/logger');
 const MySQL = require('mysql');
 
-/*console.log("utilisateur avant MySQL.createConnection");
-console.log(`DB_HOST : ${process.env.DB_HOST}`);
-console.log(`DB_PORT : ${process.env.DB_PORT}`);
-console.log(`DB_USER : ${process.env.DB_USER}`);
-console.log(`DB_PASSWORD : ${process.env.DB_PASSWORD}`);
-console.log(`DB_DATABASE : ${process.env.DB_DATABASE}`);*/
+/*logger.debug("utilisateur avant MySQL.createConnection");
+logger.debug(`DB_HOST : ${process.env.DB_HOST}`);
+logger.debug(`DB_PORT : ${process.env.DB_PORT}`);
+logger.debug(`DB_USER : ${process.env.DB_USER}`);
+logger.debug(`DB_PASSWORD : ${process.env.DB_PASSWORD}`);
+logger.debug(`DB_DATABASE : ${process.env.DB_DATABASE}`);*/
 
 
 const mysqlConnection = MySQL.createConnection({
@@ -16,14 +17,18 @@ const mysqlConnection = MySQL.createConnection({
     database: process.env.DB_DATABASE
 });
 
-console.log("utilisateur après MySQL.createConnection");
+
+
+//const mysqlConnection = require('../config/dbconfig');
+
+logger.debug("utilisateur après MySQL.createConnection");
 
 /*mysqlConnection.connect((err) => {
     if (!err)
-        console.log("DB connection succeed");
+        logger.debug("DB connection succeed");
     else {
-        console.log("DB connection failed");
-        console.log(err);
+        logger.debug("DB connection failed");
+        logger.debug(err);
     }
 });*/
 
@@ -40,12 +45,12 @@ function saveUser(email, firstname, lastname, callback) {
     const insertUser = "INSERT INTO users (email, firstname, lastname) VALUES (? , ? , ?)";
     mysqlConnection.query(insertUser, [email, firstname, lastname], (err, res) => {
         if (err) {
-            //console.log("DB INSERT failed");
-            //console.log(err.message);
+            //logger.debug("DB INSERT failed");
+            //logger.debug(err.message);
             return callback(err, null);
         }
-        //console.log("DB INSERT succeed");
-        //console.log(res);
+        //logger.debug("DB INSERT succeed");
+        //logger.debug(res);
         return callback(null, res);
     });
 }
@@ -55,30 +60,30 @@ function findOneUser(id, callback) {
     try {
         mysqlConnection.query(selectUser, [id], (err, res) => {
             if (err) {
-                console.log("DB SELECT ONE failed");
-                console.log(err.message);
+                logger.debug("DB SELECT ONE failed");
+                logger.debug(err.message);
                 return callback(err, null);
             }
-            console.log("DB SELECT ONE succeed");
-            console.log(res);
+            logger.debug("DB SELECT ONE succeed");
+            logger.debug(res);
             return callback(null, res);
 
             /*if (err) {
-                console.log("DB SELECT ONE failed");
-                console.log(err.message);
-                //console.log(err.stack);
+                logger.debug("DB SELECT ONE failed");
+                logger.debug(err.message);
+                //logger.debug(err.stack);
                 //throw err;
                 return err.message;
             }
-            console.log("DB SELECT ONE succeed");
-            console.log(res);
-            //console.log(res.insertId);
-            console.log(res.length);
+            logger.debug("DB SELECT ONE succeed");
+            logger.debug(res);
+            //logger.debug(res.insertId);
+            logger.debug(res.length);
             return res;*/
         });
     }
     catch (err) {
-        console.log("dans le catch");
+        logger.debug("dans le catch");
     }
 }
 
@@ -87,25 +92,25 @@ function findAllUsers(callback) {
 
     mysqlConnection.query(selectUser, (err, res) => {
         if (err) {
-            console.log("DB SELECT ALL failed");
-            console.log(err.message);
+            logger.debug("DB SELECT ALL failed");
+            logger.debug(err.message);
             return callback(err, null);
         }
-        console.log("DB SELECT ALL succeed");
-        console.log(res);
+        logger.debug("DB SELECT ALL succeed");
+        logger.debug(res);
         return callback(null, res);
 
         /*
                 if (err) {
-                    console.log("DB SELECT ALL failed");
-                    console.log(err.message);
-                    //console.log(err.stack);
+                    logger.debug("DB SELECT ALL failed");
+                    logger.debug(err.message);
+                    //logger.debug(err.stack);
                     //throw err;
                     return err.message;
                 }
-                console.log("DB SELECT ALL succeed");
-                //console.log(res);
-                console.log(res.length);
+                logger.debug("DB SELECT ALL succeed");
+                //logger.debug(res);
+                logger.debug(res.length);
                 return res;*/
     });
 }
@@ -113,9 +118,9 @@ function findAllUsers(callback) {
     saveUser("gforestier2000@yahoo.fr", "Guillaume", "Forestier");
 }
 catch (err) {
-    console.log("DB INSERT failed lors de l'appel de save");
-    console.log(err.message);
-    //console.log(err);
+    logger.debug("DB INSERT failed lors de l'appel de save");
+    logger.debug(err.message);
+    //logger.debug(err);
 }*/
 
 
@@ -123,12 +128,12 @@ function deleteOneUser(id, callback) {
     const deleteUser = "DELETE FROM users WHERE id=?";
     mysqlConnection.query(deleteUser, [id], (err, res) => {
         if (err) {
-            console.log("DB DELETE ONE failed");
-            console.log(err.message);
+            logger.debug("DB DELETE ONE failed");
+            logger.debug(err.message);
             return callback(err, null);
         }
-        console.log("DB DELETE ONE succeed");
-        console.log(res);
+        logger.debug("DB DELETE ONE succeed");
+        logger.debug(res);
         return callback(null, res);
     });
 }
@@ -137,12 +142,12 @@ function updateOneUser(id,email,firstname,lastname,callback){
     const updateUser = "UPDATE users SET email = ?, firstname = ?, lastname = ?  WHERE id=?";
     mysqlConnection.query(updateUser, [email, firstname, lastname, id], (err, res) => {
         if (err) {
-            console.log("DB UPDATE ONE failed");
-            console.log(err.message);
+            logger.debug("DB UPDATE ONE failed");
+            logger.debug(err.message);
             return callback(err, null);
         }
-        console.log("DB UPDATE ONE succeed");
-        console.log(res);
+        logger.debug("DB UPDATE ONE succeed");
+        logger.debug(res);
         return callback(null, res);
     });
 }

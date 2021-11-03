@@ -1,5 +1,5 @@
 require('dotenv').config('../.env')
-
+const logger = require('../config/logger');
 const Jest = require('../node_modules/jest');
 const User = require("../model/utilisateur");
 

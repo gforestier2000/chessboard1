@@ -1,3 +1,4 @@
+const logger = require('../config/logger');
 const express = require('express');
 const router = express.Router();
 
@@ -8,9 +9,9 @@ const Utilisateurs = require("../model/utilisateur");
 // route select all
 // On met en place les routes
 router.post("/users/", (request, response) => {
-    console.log("POST /users/ requested");
-    //console.log(request);
-    console.log(request.body);
+    logger.debug("POST /users/ requested");
+    //logger.debug(request);
+    logger.debug(request.body);
 
     Utilisateurs.saveUser(request.body.email, request.body.firstname, request.body.lastname,
         (err, res) => {
@@ -29,7 +30,7 @@ router.post("/users/", (request, response) => {
 
 
 router.get("/users/", (request, response) => {
-    console.log("GET /users/ requested");
+    logger.debug("GET /users/ requested");
 
     Utilisateurs.findAllUsers((err, res) => {
         if (err) return response.status(500).json(`Select all user echouée : ${err.message}`);
@@ -43,15 +44,15 @@ router.get("/users/", (request, response) => {
   
     mysqlConnection.query(selectUser, (err, res) => {
         if (err) {
-            console.log("DB SELECT ALL failed");
-            console.log(err.message);
-            //console.log(err.stack);
+            logger.debug("DB SELECT ALL failed");
+            logger.debug(err.message);
+            //logger.debug(err.stack);
             //throw err;
             return err.message;
         }
-        console.log("DB SELECT ALL succeed");
-        //console.log(res);
-        console.log(res.length);
+        logger.debug("DB SELECT ALL succeed");
+        //logger.debug(res);
+        logger.debug(res.length);
         response.status(200).json(res);
         return ;
     });*/
@@ -59,7 +60,7 @@ router.get("/users/", (request, response) => {
 
 
 router.get("/users/:id", (request, response) => {
-    console.log("GET /users/:id requested");
+    logger.debug("GET /users/:id requested");
 
     const id = request.params.id;
 
@@ -73,14 +74,14 @@ router.get("/users/:id", (request, response) => {
 
     mysqlConnection.query(selectUser, [id], (err, res) => {
         if (err) {
-            console.log("DB SELECT ONE failed");
-            console.log(err);
+            logger.debug("DB SELECT ONE failed");
+            logger.debug(err);
             return response.status(500).json(err.message);
         }
-        console.log("DB SELECT ONE succeed");
-        //console.log(res);
-        //console.log(res.insertId);
-        //console.log(res.length);
+        logger.debug("DB SELECT ONE succeed");
+        //logger.debug(res);
+        //logger.debug(res.insertId);
+        //logger.debug(res.length);
 
         if (res.length === 0) return response.status(404).json("Utilisateur inconnu");
 
@@ -89,10 +90,9 @@ router.get("/users/:id", (request, response) => {
 });
 
 router.delete("/users/:id", (request, response) => {
-    console.log("DELETE /users/:id requested");
+    logger.debug("DELETE /users/:id requested");
 
     const id = request.params.id;
-    console.log ("THE ID TA MERE : " + id);
     Utilisateurs.deleteOneUser(id, (err,res) =>{
         if (err) return response.status(500).json(`Delete one user echouée : ${err.message}`);
         if(res.affectedRows===0) return response.status(404).json(`ID Utilisateur inconnu`);
@@ -102,10 +102,10 @@ router.delete("/users/:id", (request, response) => {
 });
 
 router.put("/users/:id", (request, response) => {
-    console.log(`PUT /users/ ${request.params.id} requested :`);
+    logger.debug(`PUT /users/ ${request.params.id} requested :`);
     const id = request.params.id;
-    //console.log(request);
-    console.log(request.body);
+    //logger.debug(request);
+    logger.debug(request.body);
 
     Utilisateurs.updateOneUser(request.params.id,request.body.email, request.body.firstname, request.body.lastname,
         (err, res) => {

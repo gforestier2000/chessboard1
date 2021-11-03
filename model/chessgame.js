@@ -1,9 +1,10 @@
+const logger = require('../config/logger');
 //const  DB = require("../config/dbconfig");
 //const mysqlConnection = DB.mysqlConnection;
 
 const MySQL = require('mysql');
 
-console.log("chessgame avant MySQL.createConnection");
+logger.debug("chessgame avant MySQL.createConnection");
 /*const mysqlConnection = MySQL.createConnection({
     host: 'localhost', //192.168.2.47
     port: '3306',
@@ -19,14 +20,26 @@ const mysqlConnection = MySQL.createConnection({
     database: process.env.DB_DATABASE
 });
 
-console.log("chessgame après MySQL.createConnection");
+process.on('beforeExit',() => {
+    logger.fatal("beforeExit");
+});
+process.on('SIGINT',() => {
+    logger.fatal("SIGINT");
+    process.exit(0);
+});
+process.on('SIGTERM',() => {
+    logger.fatal("SIGTERM");
+    process.exit(0);
+});
+
+logger.debug("chessgame après MySQL.createConnection");
 
 /*mysqlConnection.connect((err) => {
     if (!err)
-        console.log("DB connection succeed");
+        logger.debug("DB connection succeed");
     else {
-        console.log("DB connection failed");
-        console.log(err);
+        logger.debug("DB connection failed");
+        logger.debug(err);
     }
 });*/
 
@@ -34,16 +47,16 @@ console.log("chessgame après MySQL.createConnection");
 
 function saveChessGame(game, callback) {
     const insertUser = "INSERT INTO chessgame \
-    (whiteplayerid, blackplayerid, name, playerturn, a1, b1, c1) \
-    VALUES (? , ? , ?, ?, ?, ?, ?)";
+    (whiteplayerid, blackplayerid, name) \
+    VALUES (? , ? , ?)";
     mysqlConnection.query(insertUser, game, (err, res) => {
         if (err) {
-            console.log("DB INSERT failed");
-            console.log(err.message);
+            logger.debug("DB INSERT failed");
+            logger.debug(err.message);
             return callback(err, null);
         }
-        console.log("DB INSERT succeed");
-        console.log(res);
+        logger.debug("DB INSERT succeed");
+        logger.debug(res);
         return callback(null, res);
     });
 }
@@ -53,30 +66,30 @@ function findOneChessGame(id, callback) {
     try {
         mysqlConnection.query(selectUser, [id], (err, res) => {
             if (err) {
-                console.log("DB SELECT ONE failed");
-                console.log(err.message);
+                logger.debug("DB SELECT ONE failed");
+                logger.debug(err.message);
                 return callback(err, null);
             }
-            console.log("DB SELECT ONE succeed");
-            console.log(res);
+            logger.debug("DB SELECT ONE succeed");
+            logger.debug(res);
             return callback(null, res);
 
             /*if (err) {
-                console.log("DB SELECT ONE failed");
-                console.log(err.message);
-                //console.log(err.stack);
+                logger.debug("DB SELECT ONE failed");
+                logger.debug(err.message);
+                //logger.debug(err.stack);
                 //throw err;
                 return err.message;
             }
-            console.log("DB SELECT ONE succeed");
-            console.log(res);
-            //console.log(res.insertId);
-            console.log(res.length);
+            logger.debug("DB SELECT ONE succeed");
+            logger.debug(res);
+            //logger.debug(res.insertId);
+            logger.debug(res.length);
             return res;*/
         });
     }
     catch (err) {
-        console.log("dans le catch");
+        logger.debug("dans le catch");
     }
 }
 
@@ -85,25 +98,25 @@ function findAllChessGames(callback) {
 
     mysqlConnection.query(selectUser, (err, res) => {
         if (err) {
-            console.log("DB SELECT ALL failed");
-            console.log(err.message);
+            logger.debug("DB SELECT ALL failed");
+            logger.debug(err.message);
             return callback(err, null);
         }
-        console.log("DB SELECT ALL succeed");
-        console.log(res);
+        logger.debug("DB SELECT ALL succeed");
+        logger.debug(res);
         return callback(null, res);
 
         /*
                 if (err) {
-                    console.log("DB SELECT ALL failed");
-                    console.log(err.message);
-                    //console.log(err.stack);
+                    logger.debug("DB SELECT ALL failed");
+                    logger.debug(err.message);
+                    //logger.debug(err.stack);
                     //throw err;
                     return err.message;
                 }
-                console.log("DB SELECT ALL succeed");
-                //console.log(res);
-                console.log(res.length);
+                logger.debug("DB SELECT ALL succeed");
+                //logger.debug(res);
+                logger.debug(res.length);
                 return res;*/
     });
 }
@@ -111,9 +124,9 @@ function findAllChessGames(callback) {
     saveUser("gforestier2000@yahoo.fr", "Guillaume", "Forestier");
 }
 catch (err) {
-    console.log("DB INSERT failed lors de l'appel de save");
-    console.log(err.message);
-    //console.log(err);
+    logger.debug("DB INSERT failed lors de l'appel de save");
+    logger.debug(err.message);
+    //logger.debug(err);
 }*/
 
 
@@ -121,36 +134,39 @@ function deleteOneChessGame(id, callback) {
     const deleteUser = "DELETE FROM chessgame WHERE id=?";
     mysqlConnection.query(deleteUser, [id], (err, res) => {
         if (err) {
-            console.log("DB DELETE ONE failed");
-            console.log(err.message);
+            logger.debug("DB DELETE ONE failed");
+            logger.debug(err.message);
             return callback(err, null);
         }
-        console.log("DB DELETE ONE succeed");
-        console.log(res);
+        logger.debug("DB DELETE ONE succeed");
+        logger.debug(res);
         return callback(null, res);
     });
 }
 
 function updateOneChessGame(id,game,callback){
     //const updateUser = "UPDATE users SET email = ?, firstname = ?, lastname = ?  WHERE id=?";
-    const updateUser = "UPDATE chessgame SET \
-        whiteplayerid = ?, \
-        blackplayerid = ?, \
-        name = ?, \
-        playerturn = ?, \
+
+            /*playerturn = ?, \
         a1 = ?, \
         b1 = ?, \
-        c1 = ? \
+        c1 = ? \*/
+    const updateChessgame = "UPDATE chessgame SET \
+        whiteplayerid = ?, \
+        blackplayerid = ?, \
+        name = ? \
         WHERE id=?";
- 
-    mysqlConnection.query(updateUser, game.push(id), (err, res) => {
+    logger.debug("UPDATE chessgame : " + updateChessgame);
+    game.push(id);
+    logger.debug(game);
+    mysqlConnection.query(updateChessgame, game, (err, res) => {
         if (err) {
-            console.log("DB UPDATE ONE failed");
-            console.log(err.message);
+            logger.error("DB UPDATE ONE failed");
+            logger.error(err.message);
             return callback(err, null);
         }
-        console.log("DB UPDATE ONE succeed");
-        console.log(res);
+        logger.debug("DB UPDATE ONE succeed");
+        logger.debug(res);
         return callback(null, res);
     });
 }

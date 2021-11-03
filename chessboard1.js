@@ -1,17 +1,15 @@
+const logger = require('./config/logger');
+
 //require("dotenv").config();
 require('dotenv').config({path: __dirname + '/.env'})
-//console.log(process.env);
-console.log(`WELCOME : ${process.env.WELCOME}`);
-console.log(`NODEHOST : ${process.env.NODEHOST}`);
-console.log(`NODEPORT : ${process.env.NODEPORT}`);
-console.log(`DB_HOST : ${process.env.DB_HOST}`);
-console.log(`DB_PORT : ${process.env.DB_PORT}`);
-console.log(`DB_USER : ${process.env.DB_USER}`);
-console.log(`DB_PASSWORD : ${process.env.DB_PASSWORD}`);
-console.log(`DB_DATABASE : ${process.env.DB_DATABASE}`);
+//logger.debug(process.env);
+logger.debug(`${__filename} WELCOME : ${process.env.WELCOME}`);
+logger.debug(`NODEHOST : ${process.env.NODEHOST}`);
+logger.debug(`NODEPORT : ${process.env.NODEPORT}`);
+
 
 const app = require("./chessapp");
-
+logger.info('RIEN A DIRE');
 // On crée le serveur http
 //const http = require("http").createServer(app);
 
@@ -31,26 +29,26 @@ const PORT = process.env.NODEPORT || 3000;
 const Utilisateurs = require('./model/utilisateur');
 Utilisateurs.saveUser("toto@gmail.com", "toto", "Ducobu",
   (err, res) => {
-      if (err) return console.log(`Insertion echouée : ${err.message}`);
-      return console.log(res);
+      if (err) return logger.debug(`Insertion echouée : ${err.message}`);
+      return logger.debug(res);
   });
 // Écoute du port
 
 // GFO : Je ne comprends pas pourquoi j'ai du modifier ce code
 // en passant de http.listen à app.listen
 /*http.listen(PORT, HOSTNAME, () => {
-    console.log(`Server running at http://${HOSTNAME}:${PORT}/`);
+    logger.debug(`Server running at http://${HOSTNAME}:${PORT}/`);
   });
 
 app.listen(PORT,() => {
-  console.log(`Server running on PORT :${PORT}/`);
+  logger.debug(`Server running on PORT :${PORT}/`);
 });
 */
 var listener = app.listen(PORT, () => {
-  console.log("Listening on port " + PORT);
+  logger.fatal("Listening on port " + PORT);
   const {port} = listener.address();
-  console.log(port);
-  console.log(listener.address());
+  logger.debug(port);
+  logger.fatal(listener.address());
 });
 
 // pour les sockets

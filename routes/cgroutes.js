@@ -1,3 +1,4 @@
+const logger = require('../config/logger');
 const express = require('express');
 const router = express.Router();
 
@@ -6,13 +7,17 @@ const CG = require("../model/chessgame");
 
 // On met en place les routes
 router.post("/chessgame/", (request, response) => {
-    console.log("POST /chessgame/ requested");
-    //console.log(request);
-    console.log(request.body);
+    logger.debug("POST /chessgame/ requested");
+    //logger.debug(request);
+    logger.debug(request.body);
 
-    //TODO
+    //TODO whiteplayerid, blackplayerid, name,
+    let game = [];
+    game.push(request.body.whiteplayerid);
+    game.push(request.body.blackplayerid);
+    game.push(request.body.name);
 
-    CG.saveChessGame(request.body.email, request.body.firstname, request.body.lastname,
+    CG.saveChessGame(game,
         (err, res) => {
             if (err) return response.status(500).json(`Insertion echouée : ${err.message}`);
             return response.status(201).json(res);
@@ -21,7 +26,7 @@ router.post("/chessgame/", (request, response) => {
 
 
 router.get("/chessgame/", (request, response) => {
-    console.log("GET /chessgame/ requested");
+    logger.debug("GET /chessgame/ requested");
 
     CG.findAllChessGames((err, res) => {
         if (err) return response.status(500).json(`Select all chessgame echouée : ${err.message}`);
@@ -32,7 +37,7 @@ router.get("/chessgame/", (request, response) => {
 
 
 router.get("/chessgame/:id", (request, response) => {
-    console.log("GET /chessgame/:id requested");
+    logger.debug("GET /chessgame/:id requested");
 
     const id = request.params.id;
 
@@ -45,7 +50,7 @@ router.get("/chessgame/:id", (request, response) => {
 });
 
 router.delete("/chessgame/:id", (request, response) => {
-    console.log("DELETE /chessgame/:id requested");
+    logger.debug("DELETE /chessgame/:id requested");
 
     const id = request.params.id;
 
@@ -58,12 +63,17 @@ router.delete("/chessgame/:id", (request, response) => {
 });
 
 router.put("/chessgame/:id", (request, response) => {
-    console.log(`PUT /chessgame/ ${request.params.id} requested :`);
+    logger.debug(`PUT /chessgame/ ${request.params.id} requested :`);
     const id = request.params.id;
-    //console.log(request);
-    console.log(request.body);
+    //logger.debug(request);
+    logger.debug(request.body);
 
-    CG.updateOneChessGame(request.params.id,request.body.email, request.body.firstname, request.body.lastname,
+    let game = [];
+    game.push(request.body.whiteplayerid);
+    game.push(request.body.blackplayerid);
+    game.push(request.body.name);
+    
+    CG.updateOneChessGame(id, game,
         (err, res) => {
             if (err) return response.status(500).json(`Update echouée : ${err.message}`);
             return response.status(200).json(res);

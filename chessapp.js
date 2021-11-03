@@ -1,20 +1,46 @@
+const logger = require('./config/logger');
+
 // pourquoi remettre l'environnement
 require('dotenv').config({path: __dirname + '/.env'})
-//console.log(process.env);
-console.log(`WELCOME : ${process.env.WELCOME}`);
-console.log(`NODEHOST : ${process.env.NODEHOST}`);
-console.log(`NODEPORT : ${process.env.NODEPORT}`);
-console.log(`DB_HOST : ${process.env.DB_HOST}`);
-console.log(`DB_PORT : ${process.env.DB_PORT}`);
-console.log(`DB_USER : ${process.env.DB_USER}`);
-console.log(`DB_PASSWORD : ${process.env.DB_PASSWORD}`);
-console.log(`DB_DATABASE : ${process.env.DB_DATABASE}`);
+//logger.debug(process.env);
+logger.debug(`WELCOME : ${process.env.WELCOME}`);
+logger.debug(`DB_HOST : ${process.env.DB_HOST}`);
+logger.debug(`DB_PORT : ${process.env.DB_PORT}`);
+logger.debug(`DB_USER : ${process.env.DB_USER}`);
+logger.debug(`DB_PASSWORD : ${process.env.DB_PASSWORD}`);
+logger.debug(`DB_DATABASE : ${process.env.DB_DATABASE}`);
 
 // On instancie express
 const express = require("express");
 const app = express();
 
+// ==================== début logger
+// on instancie le loggger
+//import expressPinoLogger from "express-pino-logger";
+const expressPinoLogger = require('express-pino-logger');
+// import the logger
+//import logger from "./logger.js";
 
+// create an instance of the middleware
+const eplMiddleware = expressPinoLogger({
+  // specify the logger
+  logger: logger,
+  // level to log
+  useLevel: "http"
+});
+
+// apply the middleware
+app.use(eplMiddleware);
+
+
+logger.http("HTTP : log test");
+logger.debug("DEBUG : log test");
+logger.info("INFO : log test");
+logger.warn("WARN : log test");
+logger.error("ERROR : log test");
+logger.fatal("FATAL : log test");
+
+// ==================== fin logger
 
 // On charge "path"
 const path = require("path");
@@ -35,7 +61,7 @@ app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
   next();
 });
-console.log("ajout des CORS");
+logger.debug("ajout des CORS");
 
 
 // initialisation du model
@@ -48,5 +74,6 @@ const K8sRouter = require("./routes/k8sroutes");
 app.use("/",UserRouter);
 app.use("/",ChessGameRouter);
 app.use("/",K8sRouter);
+
 
 module.exports = app;
