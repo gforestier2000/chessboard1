@@ -5,13 +5,51 @@ const app = require("../chessapp");
 //const request = supertest(app);
 let localId = 0;
 
+// creation de deux users pour tester chessgame
+let playerOneId = 0;
+let playerTwoId = 0;
+
+describe("POST /users", () => {
+
+    describe("when passed with a new email", () => {
+        test("should respond with a 201 status code", async () => {
+            const response = await request(app).post("/users").send({
+                email: "playerOne@gmail.com",
+                firstname: "Player",
+                lastname: "One"
+            });
+            logger.debug(response.body);
+            playerOneId = response.body.insertId;
+            expect(response.statusCode).toBe(201);
+        });
+    });
+
+});
+describe("POST /users", () => {
+
+    describe("when passed with a new email", () => {
+        test("should respond with a 201 status code", async () => {
+            const response = await request(app).post("/users").send({
+                email: "playerTwo@gmail.com",
+                firstname: "Player",
+                lastname: "Two"
+            });
+            logger.debug(response.body);
+            playerTwoId = response.body.insertId;
+            expect(response.statusCode).toBe(201);
+        });
+    });
+
+});
+
+// Test chessgame
 describe("POST /chessgame", () => {
 
     describe("when passed a new game", () => {
         test("should respond with a 201 status code", async () => {
             const response = await request(app).post("/chessgame").send({
-                whiteplayerid:9, 
-                blackplayerid:12, 
+                whiteplayerid:playerOneId, 
+                blackplayerid:playerTwoId, 
                 name: "Partie test 1vs2"
             });
             logger.debug(response.body);
@@ -40,8 +78,8 @@ describe("PUT /chessgame/:id", () => {
         test("should respond with a 200 status code", async () => {
             const response = await request(app).put(`/chessgame/${localId}`).send({
                 id: localId,
-                whiteplayerid:9, 
-                blackplayerid:12, 
+                whiteplayerid:playerOneId, 
+                blackplayerid:playerTwoId, 
                 name: "Partie test 1vs2 - updated"
             });
             logger.debug(response.body);
