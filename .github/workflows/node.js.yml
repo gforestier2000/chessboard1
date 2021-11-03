@@ -26,6 +26,8 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+    - run: docker-compose -f ./mariadb-docker-compose.yml up &
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test
+    - run: docker-compose -f ./mariadb-docker-compose.yml down
