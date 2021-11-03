@@ -27,7 +27,6 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: docker-compose -f ./mariadb-docker-compose.yml up &
-    - run: docker exec chessboard1-dbgfo-1 sh -c 'exec mysql --databases chess -uappchess -p"Chess,aminum2021"' < .\schemadb.sql
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test
