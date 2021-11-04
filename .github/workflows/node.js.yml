@@ -42,10 +42,10 @@ jobs:
           MARIADB_PASSWORD: Chess,aminum2021
         # Set health checks to wait until mariadb has started
         options: 
-          --health-cmd "mysql -uappchess -p'Chess,aminum2021' --execute \"SHOW TABLES;\""
-          --health-interval 30s
-          --health-timeout 10s
-          --health-retries 2
+          --health-cmd "mysql -uappchess -p'Chess,aminum2021' --execute 'SHOW DATABASES;'"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 3
 
     steps:
     - uses: actions/checkout@v2
