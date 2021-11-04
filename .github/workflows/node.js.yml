@@ -41,6 +41,9 @@ jobs:
            --health-interval 10s
            --health-timeout 5s
            --health-retries 5
+        volumes:
+          - "schemadb.sql:/docker-entrypoint-initdb.d/init.sql"
+          #- ./schemadb.sql:/docker-entrypoint-initdb.d/init.sql
 
     steps:
 #      - run: docker exec -it dbgfo mysql -uappchess -p'Chess,aminum2021' --execute 'USE information_schema;SHOW TABLES;'
