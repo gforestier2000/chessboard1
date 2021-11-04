@@ -43,6 +43,7 @@ jobs:
         # Set health checks to wait until mariadb has started
 
     steps:
+      - run: docker exec -it dbgfo mysql -uappchess -p'Chess,aminum2021' --execute 'USE information_schema;SHOW TABLES;'
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
