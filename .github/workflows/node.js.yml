@@ -29,8 +29,8 @@ jobs:
         # Docker Hub image
         image: mariadb:latest
         volumes:
-          - dbgfodata:/var/lib/mysql
-          - schemadb.sql:/docker-entrypoint-initdb.d/init.sql
+          - "dbgfodata:/var/lib/mysql"
+          - "schemadb.sql:/docker-entrypoint-initdb.d/init.sql"
           #- ./schemadb.sql:/docker-entrypoint-initdb.d/init.sql
         ports:
           - 5306:3306
