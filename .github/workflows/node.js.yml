@@ -30,7 +30,8 @@ jobs:
         image: mariadb:latest
         volumes:
           - dbgfodata:/var/lib/mysql
-          - ./schemadb.sql:/docker-entrypoint-initdb.d/init.sql
+          - schemadb.sql:/docker-entrypoint-initdb.d/init.sql
+          #- ./schemadb.sql:/docker-entrypoint-initdb.d/init.sql
         ports:
           - 5306:3306
         # Provide the password for mariadb
