@@ -34,10 +34,6 @@ jobs:
           MARIADB_DATABASE: chess
           MARIADB_USER: appchess
           MARIADB_PASSWORD: Chess,aminum2021
-        volumes:
-          - "dbgfodata:/var/lib/mysql"
-          - "schemadb.sql:/docker-entrypoint-initdb.d/init.sql"
-          #- ./schemadb.sql:/docker-entrypoint-initdb.d/init.sql
         # Set health checks to wait until mariadb has started
         options: >-
            --expose 3306
