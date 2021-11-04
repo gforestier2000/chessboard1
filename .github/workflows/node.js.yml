@@ -28,29 +28,48 @@ jobs:
       dbgfo:
         # Docker Hub image
         image: mariadb:latest
-        volumes:
-          - "dbgfodata:/var/lib/mysql"
-          - "schemadb.sql:/docker-entrypoint-initdb.d/init.sql"
-          #- ./schemadb.sql:/docker-entrypoint-initdb.d/init.sql
-        ports:
-          - 5306:3306
         # Provide the password for mariadb
         env:
           MARIADB_ROOT_PASSWORD: 2021aminum%
           MARIADB_DATABASE: chess
           MARIADB_USER: appchess
           MARIADB_PASSWORD: Chess,aminum2021
+        volumes:
+          - "dbgfodata:/var/lib/mysql"
+          - "schemadb.sql:/docker-entrypoint-initdb.d/init.sql"
+          #- ./schemadb.sql:/docker-entrypoint-initdb.d/init.sql
         # Set health checks to wait until mariadb has started
+        options: >-
+           --expose 3306
+           --health-cmd "mysql -uroot -p'2021aminum%' --execute 'SHOW DATABASES;'"
+           --health-interval 10s
+           --health-timeout 5s
+           --health-retries 5
 
     steps:
-      - run: docker exec -it dbgfo mysql -uappchess -p'Chess,aminum2021' --execute 'USE information_schema;SHOW TABLES;'
+#      - run: docker exec -it dbgfo mysql -uappchess -p'Chess,aminum2021' --execute 'USE information_schema;SHOW TABLES;'
+      - name: Check out repository code
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
-      - run: npm ci
-      - run: npm run build --if-present
-      - run: npm test
+      - name: Install dependencies
+        run: npm ci
+      - name: Build application
+        run: npm run build --if-present
+      - name: Test application
+        run: npm test
+        env:
+          # The hostname used to communicate with the PostgreSQL service container
+          # POSTGRES_HOST: dbgfo
+          # The default PostgreSQL port
+          # POSTGRES_PORT: 3306
+          LOGLEVEL: debug
+          DB_HOST: dbgfo
+          DB_PORT: 3306
+          DB_USER: appchess
+          DB_PASSWORD: Chess,aminum2021
+          DB_DATABASE: chess      
 
