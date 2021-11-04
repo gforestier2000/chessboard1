@@ -20,7 +20,7 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
     
     # Docker Hub image that `container-job` executes in
-    container: node:^14.18    
+    container: node:latest    
 
     # Service containers to run with `container-job`
     services:
