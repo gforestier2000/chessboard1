@@ -17,7 +17,28 @@ const mysqlConnection = MySQL.createConnection({
     database: process.env.DB_DATABASE
 });
 
+function  checkDatabase(){
+    const tableExist = "CREATE TABLE `users` ( \
+        `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id de l''utilisateur', \
+        `email` varchar(250) NOT NULL COMMENT 'email de l''utilisateur', \
+        `firstname` varchar(250) DEFAULT NULL COMMENT 'pr├®nom de l''utilisateur', \
+        `lastname` varchar(250) DEFAULT NULL COMMENT 'nom de l''utilisateur', \
+        PRIMARY KEY (`id`), \
+        UNIQUE KEY `email_UNIQUE` (`email`) \
+      ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='Utilisateurs de l''application';"
+    mysqlConnection.query(tableExist, (err, res) => {
+        if (err) {
+            //logger.debug("DB INSERT failed");
+            logger.debug(err.message);
+            return false;
+        }
+        //logger.debug("DB INSERT succeed");
+        logger.debug(res);
+        return true;
+    });
+}
 
+checkDatabase();
 
 //const mysqlConnection = require('../config/dbconfig');
 
