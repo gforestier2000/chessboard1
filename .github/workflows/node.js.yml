@@ -35,6 +35,9 @@ jobs:
           MARIADB_USER: appchess
           MARIADB_PASSWORD: Chess,aminum2021
         # Set health checks to wait until mariadb has started
+        volumes:
+          - dbgfodata:/var/lib/mysql
+          - ./schemadb.sql:/docker-entrypoint-initdb.d/init.sql        
         options: >-
            --expose 3306
            --health-cmd "mysql -uroot -p'2021aminum%' --execute 'SHOW DATABASES;'"
