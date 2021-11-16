@@ -63,6 +63,13 @@ jobs:
 
       - name: Connect to mariadb et create tables
         run : node initDB.js
+        env:
+          LOGLEVEL: debug
+          DB_HOST: dbgfo
+          DB_PORT: 3306
+          DB_USER: appchess
+          DB_PASSWORD: Chess,aminum2021
+          DB_DATABASE: chess      
 
       - name: Test application
         run: npm test
