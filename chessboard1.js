@@ -32,7 +32,9 @@ Utilisateurs.saveUser("toto@gmail.com", "toto", "Ducobu",
       if (err) return logger.debug(`Insertion echouée : ${err.message}`);
       return logger.debug(res);
   });
-// Écoute du port
+
+  logger.info('RIEN A DIRE 222222');
+  // Écoute du port
 
 // GFO : Je ne comprends pas pourquoi j'ai du modifier ce code
 // en passant de http.listen à app.listen

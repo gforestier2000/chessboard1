@@ -1,4 +1,3 @@
-const logger = require('../config/logger');
 const request = require("supertest");
 const app = require("../chessapp");
 
@@ -14,7 +13,7 @@ describe("POST /users", () => {
                 firstname: "Titi105",
                 lastname: "Loiseau"
             });
-            logger.debug(response.body);
+            //console.log(response.body);
             localId = response.body.insertId;
             expect(response.statusCode).toBe(201);
         });
@@ -32,7 +31,7 @@ describe("PUT /users/:id", () => {
                 firstname: "Titi107",
                 lastname: "Loiseau"
             });
-            logger.debug(response.body);
+            //console.log(response.body);
             expect(response.statusCode).toBe(200);
         });
     });
@@ -44,7 +43,7 @@ describe("GET /users/:id", () => {
     describe("when passed with an existing id", () => {
         test("should respond with a 202 status code", async () => {
             const response = await request(app).get(`/users/${localId}`).send();
-            logger.debug(response.body);
+            //console.log(response.body);
             expect(response.statusCode).toBe(200);
         });
     });
@@ -56,7 +55,7 @@ describe("GET /users/", () => {
     describe("when passed without id", () => {
         test("should respond with a 200 status code", async () => {
             const response = await request(app).get(`/users/`).send();
-            logger.debug(response.body);
+            //console.log(response.body);
             expect(response.statusCode).toBe(200);
         });
     });
@@ -67,8 +66,8 @@ describe("DEL /users/:id", () => {
     describe("when passed an id of an existing user", () => {
         test("should respond with a 200 status code", async () => {
             const response = await request(app).delete(`/users/${localId}`).send();
-            logger.debug("localId : " + localId);
-            logger.debug(response.body);
+            //console.log("localId : " + localId);
+            //console.log(response.body);
             expect(response.statusCode).toBe(200);
         });
     });
@@ -81,7 +80,7 @@ describe("GET /users/:id", () => {
     describe("when passed an unknown id", () => {
         test("should respond with a 404 status code", async () => {
             const response = await request(app).get(`/users/999999`).send();
-            logger.debug(response.body);
+            //console.log(response.body);
             expect(response.statusCode).toBe(404);
         });
     });

@@ -1,5 +1,8 @@
 const logger = require('../config/logger');
-const MySQL = require('mysql');
+
+// DB stuff
+const db = require('../config/dbconfig');
+const mysqlConnection = db.getConnection();
 
 /*logger.debug("utilisateur avant MySQL.createConnection");
 logger.debug(`DB_HOST : ${process.env.DB_HOST}`);
@@ -9,13 +12,6 @@ logger.debug(`DB_PASSWORD : ${process.env.DB_PASSWORD}`);
 logger.debug(`DB_DATABASE : ${process.env.DB_DATABASE}`);*/
 
 
-const mysqlConnection = MySQL.createConnection({
-    host: process.env.DB_HOST, //192.168.2.47
-    port: process.env.DB_PORT,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASE
-});
 
 function  checkDatabase(){
     const tableExist = "CREATE TABLE `users` ( \
@@ -26,7 +22,7 @@ function  checkDatabase(){
         PRIMARY KEY (`id`), \
         UNIQUE KEY `email_UNIQUE` (`email`) \
       ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='Utilisateurs de l''application';"
-    mysqlConnection.query(tableExist, (err, res) => {
+      mysqlConnection.query(tableExist, (err, res) => {
         if (err) {
             //logger.debug("DB INSERT failed");
             logger.debug(err.message);
@@ -38,7 +34,8 @@ function  checkDatabase(){
     });
 }
 
-checkDatabase();
+// TODO
+//checkDatabase();
 
 //const mysqlConnection = require('../config/dbconfig');
 
@@ -172,6 +169,9 @@ function updateOneUser(id,email,firstname,lastname,callback){
         return callback(null, res);
     });
 }
+
+//mysqlConnection.end();
+
 module.exports.saveUser = saveUser;
 module.exports.findOneUser = findOneUser;
 module.exports.findAllUsers = findAllUsers;

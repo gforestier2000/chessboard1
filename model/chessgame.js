@@ -78,7 +78,8 @@ function  checkDatabase(){
     });
 }
 
-checkDatabase();
+//TODO
+//checkDatabase();
 
 
 process.on('beforeExit',() => {
@@ -294,4 +295,4 @@ ADD COLUMN `c1` VARCHAR(2) NULL DEFAULT 'FB' COMMENT 'Case c1 du jeu d\'echec' A
     (whiteplayerid, blackplayerid, name, playerturn) \
     VALUES (25 , 26 , "partie de base", "W")" */
 
-    mysqlConnection.end();
+    //mysqlConnection.end();

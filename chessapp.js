@@ -10,6 +10,34 @@ logger.debug(`DB_USER : ${process.env.DB_USER}`);
 logger.debug(`DB_PASSWORD : ${process.env.DB_PASSWORD}`);
 logger.debug(`DB_DATABASE : ${process.env.DB_DATABASE}`);
 
+// DB stuff
+
+const db = require('./config/dbconfig');
+db.getConnection().query("USE chess;",(err,res)=>{
+  if(err) console.log(err);
+  console.log(res);
+});
+
+db.getConnection().query("SHOW TABLES;",(err,res)=>{
+  if(err) console.log(err);
+  console.log(res);
+});
+
+db.getConnection().query("DESCRIBE users;",(err,res)=>{
+  if(err) console.log(err);
+  console.log(res);
+});
+
+db.getConnection().query("DESCRIBE chessgame;",(err,res)=>{
+  if(err) console.log(err);
+  console.log(res);
+});
+
+/*if(!db.databaseIsReady()){
+  console.log("ON ARRETE TOUT");
+  process.exit(-101);
+*/
+
 // On instancie express
 const express = require("express");
 const app = express();
@@ -33,7 +61,7 @@ const eplMiddleware = expressPinoLogger({
 app.use(eplMiddleware);
 
 
-logger.http("HTTP : log test");
+logger.http(`${__filename}: 44 : HTTP : log test`);
 logger.debug("DEBUG : log test");
 logger.info("INFO : log test");
 logger.warn("WARN : log test");

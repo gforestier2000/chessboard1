@@ -19,7 +19,7 @@ const logger = pino({
   // use only the custom levels
   useOnlyCustomLevels: true,
   // the minimum log level to be display
-  level: "error"
+  level: "http"
 });
 
 // export the logger
