@@ -62,7 +62,7 @@ jobs:
         run: npm run build --if-present
 
       - name: Connect to mariadb et create tables
-        run : cat schemadb.sql
+        run : node initDB.js
 
       - name: Test application
         run: npm test
