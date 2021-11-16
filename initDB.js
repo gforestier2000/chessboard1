@@ -68,6 +68,10 @@ db.getConnection().query("CREATE TABLE `users` ( \
   ",dbHandler);
 
 
+  db.getConnection().query("SHOW TABLES;", dbHandler);
+  db.getConnection().query("DESCRIBE user;", dbHandler);
+  db.getConnection().query("DESCRIBE chessgame;", dbHandler);
+  
   db.getConnection().end();
   console.log ("DB initialisée");
   process.exit(0);
