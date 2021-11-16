@@ -70,7 +70,7 @@ db.getConnection().query("CREATE TABLE `users` ( \
 
   db.getConnection().end();
   console.log ("DB initialisée");
-  exit(0);
-
+  process.exit(0);
+  
   
 
