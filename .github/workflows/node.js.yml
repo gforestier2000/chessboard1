@@ -37,7 +37,7 @@ jobs:
         # Set health checks to wait until mariadb has started
         volumes:
           - dbgfodata:/var/lib/mysql
-          - ./schemadb.sql:/docker-entrypoint-initdb.d/init.sql        
+          - ../schemadb.sql:/docker-entrypoint-initdb.d/init.sql        
         options: >-
            --expose 3306
            --health-cmd "mysql -uroot -p'2021aminum%' --execute 'SHOW DATABASES;'"
