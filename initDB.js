@@ -67,5 +67,10 @@ db.getConnection().query("CREATE TABLE `users` ( \
   ) ENGINE=InnoDB AUTO_INCREMENT=1 COMMENT='Table enregistrant les joueurs d''une partie et la situation courante des pi├¿ces'; \
   ",dbHandler);
 
+
+  db.getConnection().end();
+  console.log ("DB initialisée");
+  exit(0);
+
   
 
