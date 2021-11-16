@@ -35,7 +35,7 @@ jobs:
           MARIADB_USER: appchess
           MARIADB_PASSWORD: Chess,aminum2021
         # Set health checks to wait until mariadb has started
-          
+
         options: >-
            --expose 3306
            --health-cmd "mysql -uroot -p'2021aminum%' --execute 'SHOW DATABASES;'"
@@ -67,7 +67,7 @@ jobs:
       - name: Test application
         run: npm test
         env:
-          # The hostname used to communicate with the PostgreSQL service container
+          # The hostname used to co mmunicate with the PostgreSQL service container
           # POSTGRES_HOST: dbgfo
           # The default PostgreSQL port
           # POSTGRES_PORT: 3306
