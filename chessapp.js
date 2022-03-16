@@ -12,11 +12,11 @@ logger.debug(`DB_DATABASE : ${process.env.DB_DATABASE}`);
 
 // DB stuff
 
-const db = require('./config/dbconfig');
+/*const db = require('./config/dbconfig');
 db.getConnection().query("USE chess;",(err,res)=>{
   if(err) console.log(err);
   console.log(res);
-});
+}).;
 
 db.getConnection().query("SHOW TABLES;",(err,res)=>{
   if(err) console.log(err);
@@ -32,6 +32,7 @@ db.getConnection().query("DESCRIBE chessgame;",(err,res)=>{
   if(err) console.log(err);
   console.log(res);
 });
+*/
 
 /*if(!db.databaseIsReady()){
   console.log("ON ARRETE TOUT");

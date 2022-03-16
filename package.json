@@ -5,7 +5,7 @@
   "main": "chessboard1.js",
   "scripts": {
     "testhandle": "node ./node_modules/jest/bin/jest.js --coverage --detectOpenHandles --verbose",
-    "test": "node ./node_modules/jest/bin/jest.js --coverage --verbose",
+    "test": "node ./node_modules/jest/bin/jest.js --coverage --verbose --detectOpenHandles",
     "start": "node chessboard1.js"
   },
   "repository": {
